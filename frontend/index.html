@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ByteGeist Cloud Study Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>ByteGeist Cloud Study Tracker</h1>
+
+        <p class="subtitle">
+            Track the AWS services and cloud concepts I'm learning.
+        </p>
+
+        <form id="topicForm">
+
+            <label for="topic">AWS Topic</label>
+
+            <input
+                type="text"
+                id="topic"
+                placeholder="Example: AWS Lambda"
+                required
+            >
+
+            <label for="status">Status</label>
+
+            <select id="status">
+                <option value="Not Started">Not Started</option>
+                <option value="Learning">Learning</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+            <label for="notes">Notes</label>
+
+            <textarea
+                id="notes"
+                placeholder="What are you learning?"
+            ></textarea>
+
+            <button type="submit">
+                Add Topic
+            </button>
+
+        </form>
+
+        <section>
+
+            <h2>My AWS Topics</h2>
+
+            <div id="topicList">
+                <!-- Topics will appear here -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
