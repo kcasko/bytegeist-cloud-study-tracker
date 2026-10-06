@@ -1,39 +1,34 @@
 # ByteGeist Cloud Study Tracker
 
-ByteGeist Cloud Study Tracker is a simple serverless web application for tracking AWS services and cloud concepts while learning AWS.
+ByteGeist Cloud Study Tracker is a multi-user serverless application for tracking AWS services and cloud concepts.
 
-## Current public mode
+## Authentication and authorization
 
-The portfolio-facing frontend is intentionally read-only. It loads topics from the API but does not expose create, edit, or delete controls.
+The public portfolio view exposes seeded demo topics through an anonymous read-only endpoint.
 
-Authenticated write access is the next backend hardening step. The intended design is public read access with authenticated/authorized mutation through Amazon Cognito or an equivalent API authorization layer.
+Users can create an account and sign in through Amazon Cognito. Authenticated users can create, edit, and delete their own private study topics.
+
+Security is enforced at multiple layers:
+
+- Amazon Cognito User Pool handles account creation, email verification, sign-in, password reset, and OAuth authorization-code login with PKCE.
+- Amazon API Gateway uses a JWT authorizer on private reads and all mutation routes.
+- AWS Lambda reads the Cognito sub claim from the verified JWT.
+- Every private DynamoDB record stores its owner ID.
+- Lambda checks ownership before update or delete operations.
+- Anonymous users cannot call private CRUD endpoints.
 
 ## Architecture
 
-The application uses:
+Browser -> AWS Amplify -> Amazon Cognito / API Gateway -> Lambda -> DynamoDB
 
-- AWS Amplify for frontend hosting
-- Amazon API Gateway for the HTTP API
-- AWS Lambda for serverless backend logic
-- Amazon DynamoDB for persistent data storage
+## Routes
 
-## Architecture Flow
-
-Browser → AWS Amplify → API Gateway → Lambda → DynamoDB
-
-## Technologies
-
-- HTML
-- CSS
-- JavaScript
-- Node.js
-- AWS Amplify
-- Amazon API Gateway
-- AWS Lambda
-- Amazon DynamoDB
+- GET /topics - public demo topics
+- GET /my-topics - authenticated user's private topics
+- POST /topics - create private topic
+- PUT /topics/{id} - update owned topic
+- DELETE /topics/{id} - delete owned topic
 
 ## Purpose
 
-I built this project as part of the AWS Builder Center Weekend Deployment Challenge while learning AWS and serverless application development.
-
-The original CRUD implementation proved create, read, update, and delete behavior. The public portfolio view is now read-only until authenticated write authorization is added to the deployed API.
+The project began as an AWS Builder Center weekend challenge. It was later hardened after identifying that anonymous CRUD on a public portfolio application violated least-privilege principles. The current version uses Cognito authentication, API Gateway JWT authorization, and per-record ownership enforcement.

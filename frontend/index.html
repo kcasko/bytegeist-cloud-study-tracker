@@ -3,39 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>ByteGeist Cloud Study Tracker</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
     <main class="container">
+        <header class="app-header">
+            <div>
+                <h1>ByteGeist Cloud Study Tracker</h1>
+                <p class="subtitle">A multi-user AWS study tracker built with Cognito, API Gateway, Lambda, DynamoDB, and Amplify.</p>
+            </div>
+            <div id="authControls" class="auth-controls">
+                <button id="signInButton" class="button secondary" type="button">Sign In</button>
+                <button id="signUpButton" class="button primary" type="button">Create Account</button>
+            </div>
+        </header>
 
-        <h1>ByteGeist Cloud Study Tracker</h1>
-
-        <p class="subtitle">
-            Track the AWS services and cloud concepts I'm learning.
-        </p>
-
-        <p>
-            Public portfolio view — read-only while authenticated write access is being added.
-        </p>
+        <div id="authStatus" class="auth-status">
+            Public demo mode. Sign in to create and manage your own private study topics.
+        </div>
 
         <section>
-
-            <h2>My AWS Topics</h2>
-
-            <div id="topicList">
-                <!-- Topics will appear here -->
+            <div class="section-heading">
+                <div>
+                    <h2>Public Demo Topics</h2>
+                    <p>Sample topics remain visible so the portfolio demo is useful without an account.</p>
+                </div>
             </div>
-
+            <div id="publicTopicList" class="topic-list">
+                <p>Loading public topics...</p>
+            </div>
         </section>
 
+        <section id="privateSection" class="private-section hidden">
+            <div class="section-heading">
+                <div>
+                    <h2>My Study Topics</h2>
+                    <p>These records are private to your Cognito account.</p>
+                </div>
+            </div>
+
+            <form id="topicForm">
+                <input type="hidden" id="topicId">
+
+                <label for="topic">Topic</label>
+                <input id="topic" name="topic" maxlength="120" required>
+
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option>Not Started</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                </select>
+
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes" maxlength="1000"></textarea>
+
+                <div class="form-actions">
+                    <button class="button primary" type="submit" id="saveButton">Add Topic</button>
+                    <button class="button secondary hidden" type="button" id="cancelEditButton">Cancel Edit</button>
+                </div>
+            </form>
+
+            <div id="privateTopicList" class="topic-list">
+                <p>Loading your topics...</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Public reads are anonymous. Account data and write operations require a Cognito JWT, and the API verifies record ownership before updates or deletes.</p>
+        </footer>
     </main>
 
     <script src="app.js"></script>
-
 </body>
 </html>
