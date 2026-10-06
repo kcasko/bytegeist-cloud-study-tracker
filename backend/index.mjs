@@ -88,7 +88,7 @@ export const handler = async (event) => {
         return createResponse(400, { message: "Topic is required." });
       }
 
-      const requestedVisibility = body.visibility === "private" ? "private" : "public";
+      const requestedVisibility = body.visibility === "public" ? "public" : "private";
 
       const newTopic = {
         id: randomUUID(),
@@ -139,7 +139,7 @@ export const handler = async (event) => {
         return createResponse(400, { message: "Topic is required." });
       }
 
-      const requestedVisibility = body.visibility === "private" ? "private" : "public";
+      const requestedVisibility = body.visibility === "public" ? "public" : "private";
 
       const result = await client.send(new UpdateItemCommand({
         TableName: TABLE_NAME,
