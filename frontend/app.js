@@ -13,6 +13,7 @@ const topicForm = document.getElementById("topicForm");
 const topicId = document.getElementById("topicId");
 const topicInput = document.getElementById("topic");
 const statusInput = document.getElementById("status");
+const visibilityInput = document.getElementById("visibility");
 const notesInput = document.getElementById("notes");
 const saveButton = document.getElementById("saveButton");
 const cancelEditButton = document.getElementById("cancelEditButton");
@@ -149,7 +150,7 @@ async function handleOAuthCallback() {
 
 function authHeaders() {
     const session = getSession();
-    return session ? { Authorization: `Bearer ${session.accessToken}` } : {};
+    return session ? { Authorization: `Bearer ${session.idToken}` } : {};
 }
 
 function renderTopicList(container, topics, editable = false) {
@@ -239,6 +240,7 @@ function startEdit(topic) {
     topicId.value = topic.id;
     topicInput.value = topic.topic;
     statusInput.value = topic.status;
+    visibilityInput.value = topic.visibility || "private";
     notesInput.value = topic.notes || "";
     saveButton.textContent = "Save Changes";
     cancelEditButton.classList.remove("hidden");
@@ -263,6 +265,7 @@ async function saveTopic(event) {
     const payload = {
         topic: topicInput.value.trim(),
         status: statusInput.value,
+        visibility: visibilityInput.value,
         notes: notesInput.value.trim()
     };
 

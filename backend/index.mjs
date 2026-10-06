@@ -88,13 +88,15 @@ export const handler = async (event) => {
         return createResponse(400, { message: "Topic is required." });
       }
 
+      const requestedVisibility = body.visibility === "private" ? "private" : "public";
+
       const newTopic = {
         id: randomUUID(),
         topic: body.topic.trim(),
         status: body.status || "Not Started",
         notes: body.notes?.trim() || "",
         owner,
-        visibility: "private"
+        visibility: requestedVisibility
       };
 
       await client.send(new PutItemCommand({
@@ -137,15 +139,21 @@ export const handler = async (event) => {
         return createResponse(400, { message: "Topic is required." });
       }
 
+      const requestedVisibility = body.visibility === "private" ? "private" : "public";
+
       const result = await client.send(new UpdateItemCommand({
         TableName: TABLE_NAME,
         Key: { id: { S: id } },
-        UpdateExpression: "SET topic = :topic, #status = :status, notes = :notes",
-        ExpressionAttributeNames: { "#status": "status" },
+        UpdateExpression: "SET topic = :topic, #status = :status, notes = :notes, #visibility = :visibility",
+        ExpressionAttributeNames: {
+          "#status": "status",
+          "#visibility": "visibility"
+        },
         ExpressionAttributeValues: {
           ":topic": { S: body.topic.trim() },
           ":status": { S: body.status || "Not Started" },
-          ":notes": { S: body.notes?.trim() || "" }
+          ":notes": { S: body.notes?.trim() || "" },
+          ":visibility": { S: requestedVisibility }
         },
         ReturnValues: "ALL_NEW"
       }));

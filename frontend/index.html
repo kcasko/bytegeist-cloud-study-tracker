@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>ByteGeist Cloud Study Tracker</title>
-    <link rel="stylesheet" href="style.css?v=20261006-1135">
+    <link rel="stylesheet" href="style.css?v=20261006-1142">
 </head>
 <body>
     <main class="container">
@@ -33,7 +33,8 @@
                 <div>
                     <h2>My Study Topics</h2>
                     <p>These records belong to your Cognito account.</p>
-                </div>            </div>
+                </div>
+            </div>
 
             <form id="topicForm">
                 <input type="hidden" id="topicId">
@@ -44,6 +45,11 @@
                     <option>Not Started</option>
                     <option>In Progress</option>
                     <option>Completed</option>
+                </select>
+                <label for="visibility">Visibility</label>
+                <select id="visibility" name="visibility">
+                    <option value="public" selected>Public — visible in the portfolio demo</option>
+                    <option value="private">Private — visible only to me</option>
                 </select>
                 <label for="notes">Notes</label>
                 <textarea id="notes" name="notes" maxlength="1000"></textarea>
@@ -75,6 +81,6 @@
         </footer>
     </main>
 
-    <script src="app.js?v=20261006-1135"></script>
+    <script src="app.js?v=20261006-1142"></script>
 </body>
 </html>
